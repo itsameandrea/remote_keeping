@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       createShift: false,
-      selectedShift: null
+      selectedShift: null,
     }
   },
   computed: {

@@ -1,7 +1,6 @@
 export const state = () => ({
   teams: [
-    { name: 'bar', class: 'bg-red text-white' },
-    { name: 'service', class: 'bg-blue text-white' }
+    { name: '', class: 'bg-red text-white' },
   ]
 })
 
