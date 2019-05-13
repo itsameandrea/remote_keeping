@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto h-full flex justify-center items-center">
+  <div class="container mx-auto h-full flex justify-center items-start">
     <div class="w-1/3">
       <h1 class="font-hairline mb-6 text-center">Login</h1>
       <div class="border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
@@ -42,6 +42,7 @@
 <script>
 import CustomButton from '@/components/CustomButton'
 export default {
+  middleware: 'preventIfAuthenticated',
   components: {
     CustomButton
   },
@@ -55,7 +56,11 @@ export default {
   },
   methods: {
     onClick () {
-      // Login logic
+      this.$auth.loginWith('local', {
+        data: {
+          auth: this.user
+        }
+      })
     }
   }
 }

@@ -43,7 +43,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope.joins(:client).where(client_id: user.client_id)
+      scope.joins(:user).where(user_id: user.id)
     end
   end
 end

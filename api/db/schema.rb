@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_150201) do
+ActiveRecord::Schema.define(version: 2019_05_13_040216) do
+
+  create_table "businesses", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.string "address"
+    t.string "vat_label"
+    t.string "vat"
+    t.string "iban"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_businesses_on_user_id"
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string "name"
@@ -20,6 +32,27 @@ ActiveRecord::Schema.define(version: 2019_04_19_150201) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "employers", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.string "address"
+    t.string "vat_label"
+    t.string "vat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_employers_on_user_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.boolean "auto_clock_in"
+    t.boolean "auto_invoicing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -27,6 +60,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_150201) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "login_count", default: 0
     t.index ["client_id"], name: "index_users_on_client_id"
   end
 

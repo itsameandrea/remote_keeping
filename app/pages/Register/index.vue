@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto h-full flex justify-center items-center">
+  <div class="container mx-auto h-full flex justify-center items-start">
     <div class="w-1/3">
       <h1 class="font-hairline mb-6 text-center">Create an account</h1>
       <div class="border-teal p-8 border-t-12 bg-white mb-6 rounded-lg shadow-lg">
@@ -9,23 +9,23 @@
             v-model="user.email"
             type="text"
             class="w-full shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Your Email">
-        </div>
-        <div class="mb-4">
-          <label class="block text-grey-darker text-sm font-bold mb-2">Business name</label>
-          <input
-            v-model="user.business"
-            type="text"
-            class="w-full shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Your Business name">
+            placeholder="Email">
         </div>
         <div class="mb-4">
           <label class="block text-grey-darker text-sm font-bold mb-2">Password</label>
           <input
             v-model="user.password"
-            type="text"
+            type="password"
             class="w-full shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Your Password">
+            placeholder="Password">
+        </div>
+        <div class="mb-4">
+          <label class="block text-grey-darker text-sm font-bold mb-2">Password confirmation</label>
+          <input
+            v-model="user.password_confirmation"
+            type="password"
+            class="w-full shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Password confirmation">
         </div>
 
         <div class="flex items-center justify-center">
@@ -49,6 +49,7 @@
 <script>
 import CustomButton from '@/components/CustomButton'
 export default {
+  middleware: 'preventIfAuthenticated',
   components: {
     CustomButton
   },
@@ -56,13 +57,14 @@ export default {
     return {
       user: {
         email: '',
-        business: '',
+        password_confirmation: '',
         password: ''
       }
     }
   },
   methods: {
     onClick () {
+      this.$store.dispatch('users/CREATE_USER', { user: this.user })
       // Registration Logic
     }
   }

@@ -1,8 +1,6 @@
 <template>
   <div class="container px-6">
     <calendar 
-      :teams="teams" 
-      :shifts="shifts" 
       @selected="onShiftSelected"
       @ctaClick="createShift = true"/>   
     <!-- <floating-button icon="fas fa-plus" @click="createShift = true"/> -->
@@ -20,6 +18,7 @@ import FloatingButton from '@/components/FloatingButton'
 import ShiftModal from '@/components/ShiftModal'
 
 export default {
+  middleware: 'auth',
   components: {
     Calendar,
     FloatingButton,
@@ -32,11 +31,16 @@ export default {
     }
   },
   computed: {
-    shifts () {
-      return this.$store.getters['shifts/shifts']
+    user () {
+      return this.$auth.user
     },
-    teams () {
-      return this.$store.getters['teams/teams']
+    firstLogin () {
+      return localStorage.getItem('firstLogin')
+    }
+  },
+  mounted () {
+    if (this.firstLogin && this.user.attributes.login_count === 1) {
+     this.$router.push('/profile?initial=true')
     }
   },
   methods: {

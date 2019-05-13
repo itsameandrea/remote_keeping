@@ -5,14 +5,18 @@ module Api
       def create
         user = User.new user_params
 
-        if user.save
+				if user.save
+					user.update_attributes login_count: user.login_count + 1
 					auth_token = Knock::AuthToken.new payload: { sub: user.id }
-					render json: { jwt: auth_token.token }
-          render status: :created
+					render json: { jwt: auth_token.token }, status: :created
         else
           render json: { error: user.errors.full_messages }, status: :unprocessable_entity
         end
-      end
+			end
+			
+			def logout
+				render status: :ok
+			end
       
       def me 
         if current_user

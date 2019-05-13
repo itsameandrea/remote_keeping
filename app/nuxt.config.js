@@ -45,14 +45,27 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Axios module configuration
   */
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/users/login', method: 'post', propertyName: 'jwt' },
+          logout: { url: '/users/logout', method: 'post' },
+          user: { url: '/users/me', method: 'get', propertyName: 'data' }
+        },
+        tokenRequired: true,
+        tokenType: 'bearer',
+      }
+    }
+  },
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://localhost:3000/api/v1'
   },
 
   /*

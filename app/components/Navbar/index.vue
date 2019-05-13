@@ -10,6 +10,9 @@
       <nav-link to="/vacations">
         Vacations
       </nav-link>
+      <nav-link @click="onLogout">
+        Logout
+      </nav-link>
     </div>
   </nav>
 </template>
@@ -19,6 +22,14 @@ import NavLink from './NavLink'
 export default {
   components: {
     NavLink
+  },
+  methods: {
+    async onLogout () {
+      // console.log('click')
+      // localStorage.removeItem('auth._token.local')
+      // document.cookie = 'auth._token.local=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+      await this.$auth.logout()
+    }
   }
 }
 </script>

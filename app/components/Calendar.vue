@@ -29,19 +29,16 @@
             {{ day }}
           </div>
         </div>
-        <div v-for="team in teams" :key="team.name">
-          <div :class="`${team.class} py-2 pl-4 shadow-md rounded-lg`">
-            {{ team.name }}
+        <div>
+          <div class="bg-teal-light py-2 pl-4 shadow-md rounded-lg">
+            
           </div>
           <div class="md:flex justify-between">
-            <ul class="list-reset w-full px-1 bg-grey-light rounded-lg my-2 mx-1 px-2 min-h-15" v-for="day in week" :key="day">
-              <li v-for="(shift, index) in dailyShiftsByTeam(day, team)" :key="index" class="text-center my-3">
-                <span @click="$emit('selected', shift)" :class="`flex flex-col w-full ${shift.color} text-sm rounded-lg py-2 cursor-pointer hover:shadow-md`">
-                  <span class="font-semibold"> {{ shift.employee.name }} </span>
-                  <span> {{ shift.time }} </span>
-                </span>
-              </li>
-            </ul>
+            <span  
+              v-for="day in week" 
+              :key="day"
+              :class="`list-reset w-full px-1 ${getBackground(day)} rounded-lg my-2 mx-1 px-2 min-h-15`">
+            </span>
           </div>
         </div>
       </div>
@@ -62,9 +59,9 @@
             {{ day }}
           </div>
         </div>
-        <div v-for="team in teams" :key="team.name">
-          <div :class="`${team.class} py-2 pl-4 shadow-md rounded-lg`">
-            {{ team.name }}
+        <div>
+          <div class="bg-teal py-2 pl-4 shadow-md rounded-lg">
+            
           </div>
           <div class="md:flex justify-between">
             <ul class="list-reset w-full" v-for="day in days" :key="day">

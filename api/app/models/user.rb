@@ -5,8 +5,22 @@ class User < ApplicationRecord
 	has_secure_password
 	validates :email, uniqueness: { case_sensitive: false }, presence: true
 
-	has_many :created_shifts, class_name: "Shift", foreign_key: "manager_id"
-	has_many :assigned_shifts, class_name: "Shift", foreign_key: "employee_id"
+	has_one :profile
+	has_one :business
+	has_one :employer
 
-	belongs_to :client, optional: true
+	after_create :create_profile, :create_business, :create_employer
+
+	def create_profile
+		Profile.create user_id: id
+	end
+
+	def create_business
+		Business.create user_id: id
+	end
+
+	def create_employer
+		Employer.create user_id: id
+	end
+
 end
