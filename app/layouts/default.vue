@@ -10,7 +10,12 @@ import Navbar from '@/components/Navbar'
 export default {
   components: {
     Navbar
-  }  
+  },
+  async mounted () {
+    if (this.$auth.user) {
+      await this.$store.dispatch('users/LOAD_RELATIONSHIPS')
+    }
+  }
 }
 </script>
 

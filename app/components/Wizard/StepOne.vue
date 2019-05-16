@@ -6,7 +6,7 @@
     <div class="mb-4">
       <label class="block text-grey-darker text-sm font-bold mb-2">Name</label>
       <input
-        v-model="$parent.user.name"
+        v-model="$parent.profile.name"
         type="text"
         class="w-full shadow appearance-none border rounded py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
         placeholder="Name">
@@ -15,8 +15,8 @@
     <div class="mb-4">
       <label class="block text-grey-darker text-sm font-bold mb-2">
         <custom-check-box
-          @change="$parent.user.autoClockIn = !$parent.user.autoClockIn"
-          :value="$parent.user.autoClockIn" />
+          @change="$parent.profile.autoClockIn = !$parent.profile.autoClockIn"
+          :value="$parent.profile.autoClockIn" />
         <span class="ml-2">
           Enable auto clock in
         </span>
@@ -26,8 +26,8 @@
     <div class="mb-4">
       <label class="block text-grey-darker text-sm font-bold mb-2">
         <custom-check-box
-          @change="$parent.user.autoInvoicing = !$parent.user.autoInvoicing"
-          :value="$parent.user.autoInvoicing" />
+          @change="$parent.profile.autoInvoicing = !$parent.profile.autoInvoicing"
+          :value="$parent.profile.autoInvoicing" />
         <span class="ml-2">
           Enable auto invoicing
         </span>

@@ -15,7 +15,7 @@ module Api
 
       def update
         business = Business.find params[:id]
-        
+
         if business.update_attributes business_params
           send_response business
         end
@@ -28,7 +28,7 @@ module Api
       end
 
       def business_params
-        params.require('business').permit(:name, :address, :vat_label, :vat, :iban)
+        params.permit(:name, :address, :vat_label, :vat, :iban)
       end
 
 		end

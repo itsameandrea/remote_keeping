@@ -1,8 +1,9 @@
 import api, { normalize } from '@/api'
+import { toSnakeCase} from '@/utils'
 
 export const CREATE_RECORD = ({ endpoint, module, attr }) => {
   return async ({ commit }, record) => {
-    const { data } = await api.post(endpoint, record)
+    const { data } = await api.post(endpoint, toSnakeCase(record))
     const json = Object.assign(normalize(data))
     commit('MERGE_RECORDS', { records: json, module, attr }, { root: true })
   }
@@ -20,7 +21,9 @@ export const FETCH_RECORD = ({ endpoint, module, attr }) => {
   return async ({ commit }, { id }) => {
     const url = `${endpoint}/${id}`
     const { data } = await api(url)
-    const json = Object.assign(normalize(data))
+    let json = Object.assign(normalize(data))
+
+    json = json[Object.keys(json)[0]]
 
     commit('MERGE_RECORDS', { records: json, module, attr }, { root: true })
   }
@@ -28,8 +31,11 @@ export const FETCH_RECORD = ({ endpoint, module, attr }) => {
 
 export const UPDATE_RECORD = ({ endpoint, module, attr }) => {
   return async ({ commit }, record) => {
-    const { data } = await api.patch(`${endpoint}/`, record)
-    const json = Object.assign(normalize(data))
+    const { data } = await api.patch(`${endpoint}/${record.id}`, toSnakeCase(record))
+    let json = Object.assign(normalize(data))
+
+    json = json[Object.keys(json)[0]]
+
     commit('MERGE_RECORDS', { records: json, module, attr }, { root: true })
   }
 }

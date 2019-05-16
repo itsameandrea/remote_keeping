@@ -28,10 +28,10 @@ export default {
     }
   },
   methods: {
-    onUpdate ({ profile, business, employer }) {
-      this.$store.dispatch('profiles/UPDATE_PROFILE', profile)
-      this.$store.dispatch('businesses/UPDATE_BUSINESS', profile)
-      this.$store.dispatch('employers/UPDATE_EMPLOYER', profile)
+    async onUpdate ({ profile, business, employer }) {
+      await this.$store.dispatch('profiles/UPDATE_PROFILE', profile)
+      await this.$store.dispatch('businesses/UPDATE_BUSINESS', business)
+      await this.$store.dispatch('employers/UPDATE_EMPLOYER', employer)
     }
   }
 }

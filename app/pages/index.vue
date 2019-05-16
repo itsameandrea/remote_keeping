@@ -1,13 +1,13 @@
 <template>
   <div class="container px-6">
-    <calendar 
+    <calendar
       @selected="onShiftSelected"
-      @ctaClick="createShift = true"/>   
+      @ctaClick="createShift = true"/>
     <!-- <floating-button icon="fas fa-plus" @click="createShift = true"/> -->
-    <shift-modal 
-      :showModal="createShift" 
+    <shift-modal
+      :showModal="createShift"
       :preloadShift="selectedShift"
-      @close="createShift = false" 
+      @close="createShift = false"
       @submit="onAdd" />
   </div>
 </template>
@@ -38,9 +38,9 @@ export default {
       return localStorage.getItem('firstLogin')
     }
   },
-  mounted () {
+  async mounted () {
     if (this.firstLogin && this.user.attributes.login_count === 1) {
-     this.$router.push('/profile?initial=true')
+      this.$router.push('/profile?initial=true')
     }
   },
   methods: {

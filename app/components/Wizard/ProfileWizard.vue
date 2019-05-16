@@ -11,7 +11,7 @@
           <step-three v-if="step === 3" />
           <step-four v-if="step === 4" />
           <div class="flex items-center justify-center">
-            <custom-button 
+            <custom-button
               @click="onNext"
               color="bg-green"
               :icon="step === 4 ? 'fas fa-check' : 'fas fa-arrow-right'">
@@ -52,7 +52,7 @@ export default {
   data () {
     return {
       step: 1,
-      user: {
+      profile: {
         name: '',
         autoClockIn: false,
         autoInvoicing: false
@@ -76,14 +76,36 @@ export default {
       }
     }
   },
-  mounted () {
-    const profile = this.$store.getters['profiles/profile']
-    const business = this.$store.getters['businesses/business']
-    const employer = this.$store.getters['employers/employer']
-
-    // this.user.name = profile.attributes.name
-    // this.user.autoClockIn = profile.attributes.autoClockIn
-    // this.user.autoInvoicing = profile.attributes.autoInvoicing
+  async mounted () {
+    await this.$store.dispatch('users/LOAD_RELATIONSHIPS')
+  },
+  computed: {
+    profileData () {
+      return this.$store.getters['profiles/profile']
+    },
+    businessData () {
+      return this.$store.getters['businesses/business']
+    },
+    employerData () {
+      return this.$store.getters['employers/employer']
+    }
+  },
+  watch: {
+    profileData (value) {
+      if (value) {
+        this.profile = { ...value.attributes }
+      }
+    },
+    businessData (value) {
+      if (value) {
+        this.business = { ...value.attributes }
+      }
+    },
+    employerData (value) {
+      if (value) {
+        this.employer = { ...value.attributes }
+      }
+    },
   },
   methods: {
     onNext () {
@@ -93,8 +115,13 @@ export default {
         this.step++
       } else {
         // UPDATE PROFILE
+        this.$emit('update', {
+          profile: this.profile,
+          business: this.business,
+          employer: this.employer
+        })
+
         localStorage.removeItem('firstLogin')
-        this.$router.push('/')
       }
     },
     onSkip () {

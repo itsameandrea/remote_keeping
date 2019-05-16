@@ -17,7 +17,7 @@
         <step-four v-if="selectedTab.step === 4" :hideTitle="true" />
       </div>
       <div class="flex items-center my-4 justify-center">
-        <custom-button 
+        <custom-button
           @click="onSave"
           color="bg-green"
           icon="fas fa-check">
@@ -60,7 +60,7 @@ export default {
         {
           text: 'Employer information',
           isActive: false,
-          step: 3 
+          step: 3
         },
         {
           text: 'Invoice information',
@@ -68,7 +68,7 @@ export default {
           step: 4
         },
       ],
-      user: {
+      profile: {
         name: '',
         autoClockIn: false,
         autoInvoicing: false
@@ -95,7 +95,33 @@ export default {
   computed: {
     selectedTab () {
       return this.tabs.find((tab) => tab.isActive)
+    },
+    profileData () {
+      return this.$store.getters['profiles/profile']
+    },
+    businessData () {
+      return this.$store.getters['businesses/business']
+    },
+    employerData () {
+      return this.$store.getters['employers/employer']
     }
+  },
+  watch: {
+    profileData (value) {
+      if (value) {
+        this.profile = { ...value.attributes }
+      }
+    },
+    businessData (value) {
+      if (value) {
+        this.business = { ...value.attributes }
+      }
+    },
+    employerData (value) {
+      if (value) {
+        this.employer = { ...value.attributes }
+      }
+    },
   },
   methods: {
     activateTab (tab) {
@@ -104,7 +130,7 @@ export default {
     },
     onSave () {
       this.$emit('update', {
-        profile: this.user,
+        profile: this.profile,
         business: this.business,
         employer: this.employer
       })

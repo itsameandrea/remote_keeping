@@ -1,7 +1,6 @@
 module Api
 	module V1
     class EmployersController < ApplicationController
-
       def index
         employers = Employer.all
 
@@ -15,7 +14,7 @@ module Api
 
       def update
         employer = Employer.find params[:id]
-        
+
         if employer.update_attributes employer_params
           send_response employer
         end
@@ -28,9 +27,8 @@ module Api
       end
 
       def employer_params
-        params.require('employer').permit(:name, :address, :vat_label, :vat, :iban)
+        params.permit(:name, :address, :vat_label, :vat)
       end
-
 		end
 	end
 end

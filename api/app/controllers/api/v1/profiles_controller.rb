@@ -15,7 +15,7 @@ module Api
 
       def update
         profile = Profile.find params[:id]
-        
+
         if profile.update_attributes profile_params
           send_response profile
         end
@@ -28,9 +28,8 @@ module Api
       end
 
       def profile_params
-        params.require('profile').permit(:name, :auth_clock_in, :auto_invoicing)
+        params.permit(:name, :auto_clock_in, :auto_invoicing)
       end
-
 		end
 	end
 end

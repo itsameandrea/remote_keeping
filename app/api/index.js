@@ -2,7 +2,7 @@ import axios from 'axios'
 import jan from 'json-api-normalizer'
 
 export const normalize = (json) => {
-  let normalizedJson = jan(json, { camelizeKeys: false, camelizeTypeValues: false } )
+  let normalizedJson = jan(json)
   return normalizedJson[Object.keys(normalizedJson)[0]]
 }
 

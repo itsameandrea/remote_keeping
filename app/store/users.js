@@ -32,7 +32,7 @@ export const getters = {
 }
 
 export const mutations = {
-  
+
 }
 
 export const actions = {
@@ -42,9 +42,12 @@ export const actions = {
     this.$auth.setToken('local', data.jwt)
 
     await this.$auth.fetchUser()
-    
+
     const user = this.$auth.user
-    
+
     loadRelationships(dispatch, user, SCHEMA)
   },
+  async LOAD_RELATIONSHIPS ({ dispatch }) {
+    loadRelationships(dispatch, this.$auth.user, SCHEMA)
+  }
 }
