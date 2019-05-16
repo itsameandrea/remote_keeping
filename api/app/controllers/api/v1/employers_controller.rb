@@ -27,7 +27,16 @@ module Api
       end
 
       def employer_params
-        params.permit(:name, :address, :vat_label, :vat)
+        params.permit(
+          :name,
+          :address,
+          :vat_label,
+          :vat,
+          :invoice_vat_label,
+          :invoice_vat_percentage,
+          :invoicing_date,
+          :day_rate
+        )
       end
 		end
 	end

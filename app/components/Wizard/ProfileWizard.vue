@@ -68,7 +68,8 @@ export default {
         name: '',
         address: '',
         vatLabel: '',
-        vat: ''
+        vat: '',
+        invoicingDate: null,
       },
       invoice: {
         vatLabel: '',

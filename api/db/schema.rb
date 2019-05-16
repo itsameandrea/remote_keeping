@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_040216) do
+ActiveRecord::Schema.define(version: 2019_05_16_051052) do
 
   create_table "businesses", force: :cascade do |t|
     t.integer "user_id"
@@ -24,12 +24,27 @@ ActiveRecord::Schema.define(version: 2019_05_13_040216) do
     t.index ["user_id"], name: "index_businesses_on_user_id"
   end
 
+  create_table "calendars", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "employer_id"
+    t.index ["employer_id"], name: "index_calendars_on_employer_id"
+    t.index ["user_id"], name: "index_calendars_on_user_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "subdomain"
     t.string "logo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.integer "calendar_id"
+    t.date "date"
+    t.boolean "billable"
+    t.boolean "half"
+    t.index ["calendar_id"], name: "index_days_on_calendar_id"
   end
 
   create_table "employers", force: :cascade do |t|
@@ -40,6 +55,12 @@ ActiveRecord::Schema.define(version: 2019_05_13_040216) do
     t.string "vat"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "invoice_vat_label"
+    t.integer "invoice_vat_percentage"
+    t.datetime "invoicing_date"
+    t.integer "day_rate"
+    t.integer "calendar_id"
+    t.index ["calendar_id"], name: "index_employers_on_calendar_id"
     t.index ["user_id"], name: "index_employers_on_user_id"
   end
 
@@ -61,6 +82,8 @@ ActiveRecord::Schema.define(version: 2019_05_13_040216) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "login_count", default: 0
+    t.integer "calendar_id"
+    t.index ["calendar_id"], name: "index_users_on_calendar_id"
     t.index ["client_id"], name: "index_users_on_client_id"
   end
 
