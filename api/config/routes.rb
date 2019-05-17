@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [:show, :update]
       resources :businesses, only: [:show, :update]
       resources :employers, only: [:show, :update]
+      resources :days, only: [:index]
     end
   end
 end

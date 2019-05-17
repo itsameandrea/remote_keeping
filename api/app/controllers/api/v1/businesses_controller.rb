@@ -5,7 +5,7 @@ module Api
       def index
         businesses = Business.all
 
-        send_response businesss
+        send_response businesses
       end
 
       def show

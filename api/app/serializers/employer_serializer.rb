@@ -1,6 +1,6 @@
 class EmployerSerializer
   include FastJsonapi::ObjectSerializer
-  attribute(:invoicing_date) { |o| o.invoicing_date.strftime("%d/%m/%Y")}
+  attribute(:invoicing_date) { |o| o.invoicing_date ? o.invoicing_date.strftime("%d/%m/%Y") : nil }
   attributes :id,
     :name,
     :address,
