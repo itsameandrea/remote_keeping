@@ -14,7 +14,6 @@
         <step-one v-if="selectedTab.step === 1" :hideTitle="true" />
         <step-two v-if="selectedTab.step === 2" :hideTitle="true" />
         <step-three v-if="selectedTab.step === 3" :hideTitle="true" />
-        <step-four v-if="selectedTab.step === 4" :hideTitle="true" />
       </div>
       <div class="flex items-center my-4 justify-center">
         <custom-button
@@ -33,7 +32,6 @@ import CustomButton from '@/components/CustomButton'
 import StepOne from '@/components/Wizard/StepOne'
 import StepTwo from '@/components/Wizard/StepTwo'
 import StepThree from '@/components/Wizard/StepThree'
-import StepFour from '@/components/Wizard/StepFour'
 
 export default {
   components: {
@@ -41,7 +39,6 @@ export default {
     StepOne,
     StepTwo,
     StepThree,
-    StepFour
   },
   data () {
     return {
@@ -61,12 +58,7 @@ export default {
           text: 'Employer information',
           isActive: false,
           step: 3
-        },
-        {
-          text: 'Invoice information',
-          isActive: false,
-          step: 4
-        },
+        }
       ],
       profile: {
         name: '',

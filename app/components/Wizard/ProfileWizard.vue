@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto h-full flex flex-col items-center">
     <div class="w-1/2 mb-10">
-      <steps :steps="4" :step="step" />
+      <steps :steps="steps" :step="step" />
     </div>
     <div class="flex justify-center w-full">
       <div class="w-1/3">
@@ -9,13 +9,12 @@
           <step-one v-if="step === 1" />
           <step-two v-if="step === 2" />
           <step-three v-if="step === 3" />
-          <step-four v-if="step === 4" />
           <div class="flex items-center justify-center">
             <custom-button
               @click="onNext"
               color="bg-green"
-              :icon="step === 4 ? 'fas fa-check' : 'fas fa-arrow-right'">
-              {{ step === 4 ? 'Submit' : 'Next' }}
+              :icon="step === steps ? 'fas fa-check' : 'fas fa-arrow-right'">
+              {{ step === steps ? 'Submit' : 'Next' }}
             </custom-button>
           </div>
           <div v-if="step !== 1" class="text-center pt-5">
@@ -46,12 +45,12 @@ export default {
     Steps,
     StepOne,
     StepTwo,
-    StepThree,
-    StepFour
+    StepThree
   },
   data () {
     return {
       step: 1,
+      steps: 3,
       profile: {
         name: '',
         autoClockIn: false,
@@ -112,7 +111,7 @@ export default {
     onNext () {
       if (this.step === 1) {
         this.step++
-      } else if (this.step < 4) {
+      } else if (this.step < this.steps) {
         this.step++
       } else {
         // UPDATE PROFILE
@@ -121,16 +120,14 @@ export default {
           business: this.business,
           employer: this.employer
         })
-
         localStorage.removeItem('firstLogin')
       }
     },
     onSkip () {
-      if (step < 4) {
+      if (step < this.steps) {
         this.step++
       } else {
         localStorage.removeItem('firstLogin')
-        this.$router.push('/')
       }
     }
   }

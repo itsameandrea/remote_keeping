@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="flex justify-center">
-      <custom-button 
-        @click="weekView = true" 
+      <custom-button
+        @click="weekView = true"
         :color="weekView? 'bg-green-dark' : 'bg-grey-light'">
           Week
       </custom-button>
       <span class="mx-4"></span>
-      <custom-button 
-        @click="weekView = false" 
+      <custom-button
+        @click="weekView = false"
         :color="weekView? 'bg-grey' : 'bg-green-dark'">
           Month
       </custom-button>
@@ -31,12 +31,13 @@
         </div>
         <div>
           <div class="bg-teal-light py-2 pl-4 shadow-md rounded-lg">
-            
+
           </div>
           <div class="md:flex justify-between">
-            <span  
-              v-for="day in week" 
+            <span
+              v-for="day in week"
               :key="day"
+              :ref="day"
               :class="`list-reset w-full px-1 ${getBackground(day)} rounded-lg my-2 mx-1 px-2 min-h-15`">
             </span>
           </div>
@@ -61,13 +62,14 @@
         </div>
         <div>
           <div class="bg-teal py-2 pl-4 shadow-md rounded-lg">
-            
+
           </div>
           <div class="md:flex justify-between">
             <ul class="list-reset w-full" v-for="day in days" :key="day">
               <li
                 v-for="item in itemsByDay(day)"
                 :key="item"
+                :ref="item"
                 :class="`text-center my-3 px-1 ${getBackground(item)} rounded-lg my-2 mx-1 px-2 min-h-10`">
                 <span class="flex flex-col w-full text-sm rounded-lg py-2">
                   <span class="font-semibold"> {{ item }} </span>
@@ -102,6 +104,9 @@ export default {
       currentMonth: this.$moment().format('MMMM YYYY')
     }
   },
+  mounted () {
+    this.notify()
+  },
   computed: {
     weekEnd () {
       return this.$moment(this.weekStart, this.dateFormat).add(6, 'days').format(this.dateFormat)
@@ -117,7 +122,7 @@ export default {
       }
       return dates
     },
-    wholeMonth () {      
+    wholeMonth () {
       const start = this.$moment(this.currentMonth, this.monthFormat).startOf('month')
       const end = this.$moment(this.currentMonth, this.monthFormat).endOf('month')
       const dates = []
@@ -128,6 +133,31 @@ export default {
       }
 
       return dates
+    },
+    workDays () {
+      return this.$store.getters['days/days']
+    }
+  },
+  watch: {
+    weekEnd () {
+      this.notify()
+    },
+    wholeMonth () {
+      this.notify()
+    },
+    weekView () {
+      this.notify()
+    },
+    workDays (value) {
+      if (value) {
+        Object.keys(this.$refs).forEach((date) => {
+          const day = Object.values(value).find((day) => day.attributes.date === date)
+          if (day) {
+            const color = day.attributes.billable ? 'bg-green-light' : 'bg-red-light'
+            this.$refs[date][0].classList.add(color)
+          }
+        })
+      }
     }
   },
   methods: {
@@ -143,7 +173,7 @@ export default {
       else
         this.currentMonth = this.$moment(this.currentMonth, this.monthFormat).subtract(1, 'month').format(this.monthFormat)
     },
-    dailyShiftsByTeam (day, team) {      
+    dailyShiftsByTeam (day, team) {
       const shifts = this.shifts.filter((shift) => {
         const formattedShift = this.$moment(shift.date, 'MM/DD/YYYY')
         const formattedDay = this.$moment(day, this.dateFormat).format('MM/DD/YYYY')
@@ -158,7 +188,7 @@ export default {
 
       let firstOfTheArray = this.$moment(days[0], 'DD/MM/YYYY')
       let firstOfTheMonth = this.$moment(this.currentMonth, this.monthFormat).startOf('month')
-      
+
       // firstOfTheArray = this.$moment(firstOfTheArray, 'DD/MM/YYYY')
       // firstOfTheMonth = this.$moment(firstOfTheMonth, 'DD/MM/YYYY')
 
@@ -172,15 +202,27 @@ export default {
       const today = this.$moment().startOf('day')
 
       if (dayMoment.isSame(today, 'day')) {
-        console.log('Today')
         return 'bg-grey-light border-4 border-blue'
       }
-        
 
-      if (this.$moment(day, 'DD/MM/YYYY').isSame(this.currentMonth, 'month'))
+      if (this.$moment(day, 'DD/MM/YYYY').isSame(this.currentMonth, 'month')) {
         return 'bg-grey-light'
-      
+      }
+
       return 'bg-grey-lighter text-grey'
+    },
+    notify () {
+      if (this.weekView) {
+        this.$emit('datesChanged', {
+          start: this.weekStart,
+          end: this.weekEnd
+        })
+      } else {
+        this.$emit('datesChanged', {
+          start: this.wholeMonth[0],
+          end: this.wholeMonth[this.wholeMonth.length - 1]
+        })
+      }
     }
   }
 }

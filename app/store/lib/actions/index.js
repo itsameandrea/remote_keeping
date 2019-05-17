@@ -10,8 +10,11 @@ export const CREATE_RECORD = ({ endpoint, module, attr }) => {
 }
 
 export const FETCH_RECORDS = ({ endpoint, module, attr}) => {
-  return async ({ commit }) => {
-    const { data } = await api.get(endpoint)
+  return async ({ commit }, params) => {
+    const queryString = Object.keys(params)
+      .map((key) => `${key}=${params[key]}`)
+      .join('&')
+    const { data } = await api.get(`${endpoint}?${queryString || ''}`)
     const json = Object.assign(normalize(data))
     commit('MERGE_RECORDS', { records: json, module, attr }, { root: true })
   }
