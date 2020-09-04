@@ -20,7 +20,7 @@
     "nuxt": "^2.6.3",
     "pikaday": "^1.8.0",
     "vue-flatpickr-component": "^8.1.2",
-    "vue-moment": "^4.0.0"
+    "vue-moment": "^4.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",
