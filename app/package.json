@@ -17,7 +17,7 @@
     "cross-env": "^5.2.0",
     "flatpickr": "^4.5.7",
     "json-api-normalizer": "^0.4.14",
-    "nuxt": "^2.6.3",
+    "nuxt": "^2.15.8",
     "pikaday": "^1.8.0",
     "vue-flatpickr-component": "^8.1.2",
     "vue-moment": "^4.0.0"
